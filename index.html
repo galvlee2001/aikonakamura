@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aiko - Gen Z Chatbot</title>
   <style>
     html, body {
@@ -11,40 +11,76 @@
       height: 100%;
       background-color: #f9fafb;
       font-family: sans-serif;
-      overflow: hidden;
     }
 
     #vf-container {
+      width: 100%;
+      height: 100dvh; /* Responsive to mobile safe areas */
+      display: none;
+    }
+
+    #start-wrapper {
       display: flex;
       flex-direction: column;
-      height: 100dvh; /* dynamic viewport height for mobile */
-      width: 100%;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: #f9fafb;
+    }
+
+    #startBtn {
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      background-color: #3B82F6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    #startBtn:hover {
+      background-color: #2563EB;
     }
   </style>
 </head>
 <body>
 
+  <!-- Start button screen -->
+  <div id="start-wrapper">
+    <h2>🎤 Start Interview with Aiko</h2>
+    <button id="startBtn" onclick="startAiko()">Begin</button>
+  </div>
+
+  <!-- Voiceflow Chat -->
   <div id="vf-container"></div>
 
   <script>
+    function startAiko() {
+      // Hide start screen, show chat
+      document.getElementById('start-wrapper').style.display = 'none';
+      document.getElementById('vf-container').style.display = 'block';
+
+      // Load Voiceflow chat with TTS enabled
+      window.voiceflow.chat.load({
+        verify: { projectID: '67fb8b005a46706764a6c600' },
+        url: 'https://general-runtime.voiceflow.com',
+        versionID: 'production',
+        voice: {
+          url: "https://runtime-api.voiceflow.com",
+          tts: true
+        },
+        render: {
+          mode: 'embedded',
+          target: document.getElementById('vf-container')
+        }
+      });
+    }
+
+    // Load Voiceflow chat library
     (function(d, t) {
       const v = d.createElement(t);
       const s = d.getElementsByTagName(t)[0];
-      v.onload = function() {
-        window.voiceflow.chat.load({
-          verify: { projectID: '67fb8b005a46706764a6c600' },
-          url: 'https://general-runtime.voiceflow.com',
-          versionID: 'production',
-          voice: {
-            url: "https://runtime-api.voiceflow.com",
-            tts: true
-          },
-          render: {
-            mode: 'embedded',
-            target: document.getElementById('vf-container')
-          }
-        });
-      };
       v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs";
       v.type = "text/javascript";
       s.parentNode.insertBefore(v, s);
