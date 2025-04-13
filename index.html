@@ -5,78 +5,39 @@
   <title>Aiko - Gen Z Chatbot</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f7f9fb;
-      text-align: center;
-      padding: 2rem;
+      margin: 0;
+      padding: 0;
+      background-color: #f9fafb;
     }
-
-    #aiko-avatar {
-      width: 160px;
-      height: 160px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 1rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
     #vf-container {
       width: 100%;
-      max-width: 800px;
-      height: 600px;
-      margin: 2rem auto 0;
-      display: none;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid #ccc;
-    }
-
-    #startBtn {
-      background-color: #3B82F6;
-      color: white;
-      font-size: 1rem;
-      padding: 0.75rem 2rem;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    #startBtn:hover {
-      background-color: #2563EB;
+      height: 100vh;
     }
   </style>
 </head>
 <body>
 
-  <button id="startBtn" onclick="startAiko()">🎤 Start Interview with Aiko</button>
-
-  <!-- Voiceflow Container -->
   <div id="vf-container"></div>
 
-  <!-- Voiceflow Loader -->
   <script>
-    function startAiko() {
-      document.getElementById('vf-container').style.display = 'block';
-      window.voiceflow.chat.load({
-        verify: { projectID: '67fb8b005a46706764a6c600' },
-        url: 'https://general-runtime.voiceflow.com',
-        versionID: 'production',
-        voice: {
-          url: "https://runtime-api.voiceflow.com",
-          tts: true
-        },
-        render: {
-          mode: 'embedded',
-          target: document.getElementById('vf-container')
-        }
-      });
-      document.getElementById('startBtn').disabled = true;
-    }
-
     (function(d, t) {
       const v = d.createElement(t);
       const s = d.getElementsByTagName(t)[0];
+      v.onload = function() {
+        window.voiceflow.chat.load({
+          verify: { projectID: '67fb8b005a46706764a6c600' },
+          url: 'https://general-runtime.voiceflow.com',
+          versionID: 'production',
+          voice: {
+            url: "https://runtime-api.voiceflow.com",
+            tts: true
+          },
+          render: {
+            mode: 'embedded',
+            target: document.getElementById('vf-container')
+          }
+        });
+      };
       v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs";
       v.type = "text/javascript";
       s.parentNode.insertBefore(v, s);
